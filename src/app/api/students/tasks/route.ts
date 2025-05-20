@@ -1,6 +1,13 @@
 import { NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 
+type Task = {
+  tNo: number
+  name: string
+  createdAt: Date
+  verificationStatus: string
+}
+
 export async function GET(request: Request) {
   try {
     const { searchParams } = new URL(request.url)
@@ -25,7 +32,7 @@ export async function GET(request: Request) {
     ])
 
     return NextResponse.json({
-      tasks: tasks.map(task => ({
+      tasks: tasks.map((task: Task) => ({
         id: task.tNo.toString(), // Using tNo as id since it's unique
         studentName: task.name,
         studentId: task.tNo,
