@@ -1,12 +1,5 @@
 import { NextResponse } from 'next/server'
-import { prisma } from '@/lib/prisma'
-
-type Task = {
-  tNo: number
-  name: string
-  createdAt: Date
-  verificationStatus: string
-}
+import clientPromise from '@/lib/db'
 
 export async function GET(request: Request) {
   try {
@@ -15,29 +8,25 @@ export async function GET(request: Request) {
     const limit = parseInt(searchParams.get("limit") || "5")
     const skip = (page - 1) * limit
 
+    const client = await clientPromise
+    const db = client.db()
+
     const [tasks, total] = await Promise.all([
-      prisma.student.findMany({
-        where: { verificationStatus: "Pending" },
-        skip,
-        take: limit,
-        orderBy: { createdAt: "desc" },
-        select: {
-          tNo: true,
-          name: true,
-          createdAt: true,
-          verificationStatus: true
-        }
-      }),
-      prisma.student.count({ where: { verificationStatus: "Pending" } })
+      db.collection('students').find({ verificationStatus: "Pending" })
+        .skip(skip)
+        .limit(limit)
+        .sort({ createdAt: -1 })
+        .toArray(),
+      db.collection('students').countDocuments({ verificationStatus: "Pending" })
     ])
 
     return NextResponse.json({
-      tasks: tasks.map((task: Task) => ({
-        id: task.tNo.toString(), // Using tNo as id since it's unique
+      tasks: tasks.map(task => ({
+        id: task.tNo.toString(),
         studentName: task.name,
         studentId: task.tNo,
         dueDate: task.createdAt,
-        priority: "medium" // Default priority since it's not in the schema
+        priority: "medium"
       })),
       total
     })
