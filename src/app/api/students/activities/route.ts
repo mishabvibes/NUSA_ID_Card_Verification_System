@@ -1,6 +1,14 @@
 import { NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
 
+type Activity = {
+  tNo: number
+  name: string
+  verificationStatus: 'Pending' | 'Verified' | 'Rejected'
+  createdAt: Date
+  verifiedBy: string | null
+}
+
 export async function GET() {
   try {
     const activities = await prisma.student.findMany({
@@ -20,7 +28,7 @@ export async function GET() {
         createdAt: true,
         verifiedBy: true
       }
-    })
+    }) as Activity[]
 
     return NextResponse.json(activities.map((activity) => ({
       id: activity.tNo.toString(),
