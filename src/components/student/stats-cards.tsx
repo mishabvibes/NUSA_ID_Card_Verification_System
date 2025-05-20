@@ -4,14 +4,6 @@ import type { Stats } from "@/types"
 import { Users, CheckCircle, Clock, AlertTriangle, XCircle } from "lucide-react"
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card"
 
-interface Stats {
-  total: number
-  verified: number
-  pending: number
-  rejected: number
-  verificationRate: number
-}
-
 export function StatsCards({ stats }: { stats: Stats }) {
   return (
     <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">

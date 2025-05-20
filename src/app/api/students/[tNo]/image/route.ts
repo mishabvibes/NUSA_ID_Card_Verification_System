@@ -1,24 +1,15 @@
-import { type NextRequest, NextResponse } from "next/server"
+import { type NextRequest } from "next/server"
 
 export async function GET(
-  req: NextRequest,
-  { params }: { params: { tNo: string } }
+  request: NextRequest,
+  { params }: { params: Promise<{ tNo: string }> }
 ) {
-  try {
-    const tNo = params.tNo
-    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
-
-    if (!supabaseUrl) {
-      throw new Error("Supabase URL not configured")
-    }
-
-    // Construct the public URL directly
-    const publicUrl = `${supabaseUrl}/storage/v1/object/public/students-photo/${tNo}.jpg`
-
-    // Redirect to the Supabase public URL
-    return NextResponse.redirect(publicUrl)
-  } catch (error) {
-    console.error("Error fetching student image:", error)
-    return new NextResponse(null, { status: 404 })
+  const resolvedParams = await params
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
+  if (!supabaseUrl) {
+    return new Response("Supabase URL not configured", { status: 500 })
   }
+
+  const publicUrl = `${supabaseUrl}/storage/v1/object/public/students/${resolvedParams.tNo}.jpg`
+  return Response.redirect(publicUrl)
 } 

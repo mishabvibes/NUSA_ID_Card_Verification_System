@@ -3,12 +3,13 @@ import { connectMongo } from "@/lib/mongodb"
 import Student from "@/models/Student"
 
 export async function GET(
-  req: NextRequest,
-  { params }: { params: { tNo: string } }
+  request: NextRequest,
+  { params }: { params: Promise<{ tNo: string }> }
 ) {
   try {
     await connectMongo()
-    const tNo = parseInt(params.tNo)
+    const resolvedParams = await params
+    const tNo = parseInt(resolvedParams.tNo)
 
     if (isNaN(tNo)) {
       return NextResponse.json({ error: "Invalid token number" }, { status: 400 })
@@ -27,13 +28,14 @@ export async function GET(
 }
 
 export async function PUT(
-  req: NextRequest,
-  { params }: { params: { tNo: string } }
+  request: NextRequest,
+  { params }: { params: Promise<{ tNo: string }> }
 ) {
   try {
     await connectMongo()
-    const tNo = parseInt(params.tNo)
-    const body = await req.json()
+    const resolvedParams = await params
+    const tNo = parseInt(resolvedParams.tNo)
+    const body = await request.json()
 
     if (isNaN(tNo)) {
       return NextResponse.json({ error: "Invalid token number" }, { status: 400 })
@@ -52,12 +54,13 @@ export async function PUT(
 }
 
 export async function DELETE(
-  req: NextRequest,
-  { params }: { params: { tNo: string } }
+  request: NextRequest,
+  { params }: { params: Promise<{ tNo: string }> }
 ) {
   try {
     await connectMongo()
-    const tNo = parseInt(params.tNo)
+    const resolvedParams = await params
+    const tNo = parseInt(resolvedParams.tNo)
 
     if (isNaN(tNo)) {
       return NextResponse.json({ error: "Invalid token number" }, { status: 400 })

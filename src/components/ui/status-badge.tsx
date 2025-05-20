@@ -1,5 +1,5 @@
 interface StatusBadgeProps {
-  status: "Pending" | "Verified" | "Reported"
+  status: "Pending" | "Verified" | "Rejected"
 }
 
 export function StatusBadge({ status }: StatusBadgeProps) {
@@ -7,7 +7,7 @@ export function StatusBadge({ status }: StatusBadgeProps) {
     switch (status) {
       case "Verified":
         return "bg-green-100 text-green-800"
-      case "Reported":
+      case "Rejected":
         return "bg-red-100 text-red-800"
       case "Pending":
       default:
