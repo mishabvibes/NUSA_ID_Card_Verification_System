@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server'
 import { prisma } from '@/lib/prisma'
+import type { Student } from '@prisma/client'
 
 export async function GET() {
   try {
@@ -22,7 +23,7 @@ export async function GET() {
       }
     })
 
-    return NextResponse.json(activities.map(activity => ({
+    return NextResponse.json(activities.map((activity) => ({
       id: activity.tNo.toString(),
       type: activity.verificationStatus === 'Verified' ? 'verification' :
             activity.verificationStatus === 'Rejected' ? 'rejection' : 'registration',
