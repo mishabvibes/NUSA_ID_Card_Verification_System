@@ -34,18 +34,6 @@ A professional web application for student identity verification. The system all
 - MongoDB database
 - Supabase account with storage bucket named "students"
 
-### Environment Variables
-
-Create a `.env.local` file with the following variables:
-
-\`\`\`
-MONGODB_URI=mongodb+srv://mishabvibes:dUnZFANjcZ4kUJAh@cluster0.oxtgj8v.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
-NEXT_PUBLIC_SUPABASE_URL=https://ghahycacozwriyycdojt.supabase.co
-NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImdoYWh5Y2Fjb3p3cml5eWNkb2p0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDY5ODA0MjQsImV4cCI6MjA2MjU1NjQyNH0.PITj0HD9DHaOqyY1ia1N9GInYXS9Z5yYjzWpkKOhfZU
-NEXTAUTH_SECRET=your-nextauth-secret
-NEXT_PUBLIC_ADMIN_WHATSAPP=1234567890
-\`\`\`
-
 ### Installation
 
 1. Clone the repository:
